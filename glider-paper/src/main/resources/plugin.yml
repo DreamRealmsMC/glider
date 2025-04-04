@@ -1,0 +1,5 @@
+name: GliderPaper
+version: '${project.version}'
+main: eu.lenithia.glider.GliderPaper
+authors: ["Len_137"]
+api-version: '1.21'
