@@ -46,6 +46,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: root/target/glider-velocity-${{ env.VERSION }}.jar
+          asset_path: target/glider-velocity-${{ env.VERSION }}.jar
           asset_name: glider-velocity-${{ env.VERSION }}.jar
           asset_content_type: application/java-archive
