@@ -36,6 +36,8 @@ jobs:
 
       - name: Upload JARs to GitHub Release (Paper)
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: target/glider-paper-${{ env.VERSION }}.jar
@@ -44,6 +46,8 @@ jobs:
 
       - name: Upload JARs to GitHub Release (Velocity)
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: target/glider-velocity-${{ env.VERSION }}.jar
