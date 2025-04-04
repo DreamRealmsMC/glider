@@ -41,6 +41,7 @@ jobs:
           asset_path: target/glider-paper-${{ env.VERSION }}.jar
           asset_name: glider-paper-${{ env.VERSION }}.jar
           asset_content_type: application/java-archive
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload JARs to GitHub Release
         uses: actions/upload-release-asset@v1
@@ -49,3 +50,4 @@ jobs:
           asset_path: target/glider-velocity-${{ env.VERSION }}.jar
           asset_name: glider-velocity-${{ env.VERSION }}.jar
           asset_content_type: application/java-archive
+          token: ${{ secrets.GITHUB_TOKEN }}
