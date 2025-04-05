@@ -53,6 +53,7 @@
                     <exclude>META-INF/versions/9/module-info.class</exclude>
                     <exclude>META-INF/versions/11/module-info.class</exclude>
                     <exclude>org/intellij/lang/annotations/**</exclude>
+                    <exclude>org/jetbrains/annotations/**</exclude>
                   </excludes>
                 </filter>
               </filters>
@@ -114,4 +115,8 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
 </project>

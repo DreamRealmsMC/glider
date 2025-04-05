@@ -1,15 +1,15 @@
-package eu.lenithia.glider.cluster.event;
+package eu.lenithia.glider.cluster.events;
 
 
 import eu.lenithia.glider.cluster.system.GServer;
 import lombok.Getter;
 
 @Getter
-public class GServerRegisterEvent {
+public class GServerLoadEvent {
 
     private final GServer gServer;
 
-    public GServerRegisterEvent(GServer gServer) {
+    public GServerLoadEvent(GServer gServer) {
         this.gServer = gServer;
     }
 

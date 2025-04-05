@@ -4,12 +4,10 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
-import eu.lenithia.glider.GliderVelocity;
-import eu.lenithia.glider.cluster.event.GServerRegisterEvent;
-import eu.lenithia.glider.cluster.integration.ServerIntegration;
+import eu.lenithia.glider.cluster.events.GServerLoadEvent;
+import eu.lenithia.glider.cluster.integrationsystem.templates.ServerIntegration;
 import lombok.Getter;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +25,7 @@ public class GServer {
     public GServer (ProxyServer proxy, Section configSection) {
         this.configSection = configSection;
 
-        proxy.getEventManager().fire(new GServerRegisterEvent(this)).thenAccept(event -> {});
+        proxy.getEventManager().fire(new GServerLoadEvent(this)).thenAccept(event -> {});
 
     }
 

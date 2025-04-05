@@ -3,45 +3,74 @@ package eu.lenithia.glider;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.plugin.PluginDescription;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import eu.lenithia.glider.cluster.event.GServerRegisterEvent;
-import eu.lenithia.glider.cluster.system.GServer;
+import eu.lenithia.glider.cluster.ClusterSystem;
+import eu.lenithia.glider.cluster.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.utils.ConfigLoader;
+import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
 import org.slf4j.Logger;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 
 public class GliderVelocity {
 
+    @Getter
     private final Logger logger;
+    @Getter
     private final ProxyServer proxy;
+    @Getter
     private final Path dataDirectory;
+    @Getter
+    private PluginDescription pluginDescription;
 
+    private final GliderVelocity glider;
+
+    @Getter
     private YamlDocument config;
+
+    @Getter
+    private ClusterSystem clusterSystem;
 
 
     @Inject
-    public GliderVelocity(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory) {
+    public GliderVelocity(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory, PluginDescription description ) {
         this.proxy = proxy;
         this.logger = logger;
         this.dataDirectory = dataDirectory;
+        this.glider = this;
+        this.pluginDescription = description;
     }
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) throws IOException {
-        logger.info("GliderVelocity initialized");
+
+        String version = pluginDescription.getVersion().orElse("unknown");
+        GliderConsoleText.printConsoleText(proxy, version);
 
         // Load the config
         YamlDocument config = ConfigLoader.getVersionedConfig(dataDirectory, "config", getClass().getResourceAsStream("/config.yml"));
         logger.info("GliderVelocity loaded config");
+
+        // Load clusters
+        proxy.getEventManager().register(glider, new DefaultIntegrationsLoader(glider));
+        this.clusterSystem = new ClusterSystem(glider);
+
+
+        getLogger().info("Loaded clusters: {}", clusterSystem.getClusters().keySet());
+
+        // Load sender
+
+
+        // -------------------- Temporary Shit --------------------
 
         String configString = String.valueOf(config);
 
@@ -50,15 +79,6 @@ public class GliderVelocity {
         ServerInfo info = new ServerInfo("Auth", new InetSocketAddress("23.88.13.8", 40010));
         RegisteredServer server = proxy.registerServer(info);
 
-        new GServer(proxy,null);
-        new GServer(proxy,null);
-        new GServer(proxy,null);
-
-    }
-
-    @Subscribe
-    public void onServerRegister(GServerRegisterEvent event) {
-        logger.info("!!! A SERVER WAS REGISTERED !!! event works lol");
     }
 
 }

@@ -1,4 +1,4 @@
-package eu.lenithia.glider.cluster.integration;
+package eu.lenithia.glider.cluster.integrationsystem.templates;
 
 public abstract class GroupIntegration {
 
