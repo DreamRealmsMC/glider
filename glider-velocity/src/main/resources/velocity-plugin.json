@@ -1,6 +1,6 @@
 {
   "id": "glider",
-  "name": "Glider",
+  "name": "glider",
   "version": "${project.version}",
   "main": "eu.lenithia.glider.GliderVelocity",
   "authors": ["Len_137"],

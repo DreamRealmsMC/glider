@@ -1,0 +1,26 @@
+
+database:
+  ip: 127.0.0.1
+  port: 3306
+  username: "username"
+  password: "yourpassword"
+  databaseName: "database"
+  maxPoolSize: 1500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -------------------- DO NOT TOUCH -------------------- #
+config-version: 1

@@ -1,4 +1,4 @@
-name: GliderPaper
+name: gliderPaper
 version: '${project.version}'
 main: eu.lenithia.glider.GliderPaper
 authors: ["Len_137"]

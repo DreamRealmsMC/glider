@@ -15,6 +15,7 @@
 
     <name>Glider-Velocity</name>
 
+
     <dependencies>
 
         <dependency>
@@ -65,7 +66,32 @@
 
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>21</release> <!-- Use release instead of source/target -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -76,8 +102,6 @@
                         <phase>package</phase>
                         <goals><goal>shade</goal></goals>
                         <configuration>
-                            <!-- <minimizeJar>true</minimizeJar> -->
-
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
@@ -88,10 +112,18 @@
                                         <exclude>META-INF/*.RSA</exclude>
                                         <exclude>META-INF/maven/**</exclude>
                                         <exclude>LICENSE</exclude>
+                                        <exclude>META-INF/versions/9/module-info.class</exclude>
+                                        <exclude>META-INF/versions/11/module-info.class</exclude>
+                                        <exclude>org/intellij/lang/annotations/**</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
-
+                            <relocations>
+                                <relocation>
+                                    <pattern>dev.dejvokep.boostedyaml</pattern>
+                                    <shadedPattern>eu.lenithia.libs.boostedyaml</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>

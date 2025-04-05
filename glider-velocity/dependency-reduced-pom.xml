@@ -9,7 +9,27 @@
   <artifactId>glider-velocity</artifactId>
   <name>Glider-Velocity</name>
   <build>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <release>21</release>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.6.0</version>
@@ -30,9 +50,18 @@
                     <exclude>META-INF/*.RSA</exclude>
                     <exclude>META-INF/maven/**</exclude>
                     <exclude>LICENSE</exclude>
+                    <exclude>META-INF/versions/9/module-info.class</exclude>
+                    <exclude>META-INF/versions/11/module-info.class</exclude>
+                    <exclude>org/intellij/lang/annotations/**</exclude>
                   </excludes>
                 </filter>
               </filters>
+              <relocations>
+                <relocation>
+                  <pattern>dev.dejvokep.boostedyaml</pattern>
+                  <shadedPattern>eu.lenithia.libs.boostedyaml</shadedPattern>
+                </relocation>
+              </relocations>
             </configuration>
           </execution>
         </executions>
@@ -81,7 +110,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.36</version>
+      <version>1.18.38</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
