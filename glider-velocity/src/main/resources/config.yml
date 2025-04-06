@@ -9,9 +9,12 @@ database:
 
 
 
+# TODO: IMPLEMENT DEFAULT CLUSTER
 
-
-
+default-cluster:
+  # If you use plugins like LibreLogin, you need to set this to false
+  enabled: true
+  default: example
 
 
 
