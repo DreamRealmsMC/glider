@@ -44,6 +44,16 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.incendo</groupId>
+            <artifactId>cloud-velocity</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.incendo</groupId>
+            <artifactId>cloud-minecraft-extras</artifactId>
+            <version>${cloud.version}</version>
+        </dependency>
 
     </dependencies>
 
