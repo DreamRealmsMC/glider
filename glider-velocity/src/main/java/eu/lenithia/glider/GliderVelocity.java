@@ -9,8 +9,8 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import eu.lenithia.glider.cluster.ClusterSystem;
-import eu.lenithia.glider.cluster.integrationsystem.DefaultIntegrationsLoader;
+import eu.lenithia.glider.clusters.ClusterSystem;
+import eu.lenithia.glider.clusters.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
@@ -58,26 +58,14 @@ public class GliderVelocity {
 
         // Load the config
         YamlDocument config = ConfigLoader.getVersionedConfig(dataDirectory, "config", getClass().getResourceAsStream("/config.yml"));
-        logger.info("GliderVelocity loaded config");
+        logger.info("config files loaded");
 
         // Load clusters
         proxy.getEventManager().register(glider, new DefaultIntegrationsLoader(glider));
         this.clusterSystem = new ClusterSystem(glider);
 
-
-        getLogger().info("Loaded clusters: {}", clusterSystem.getClusters().keySet());
-
         // Load sender
 
-
-        // -------------------- Temporary Shit --------------------
-
-        String configString = String.valueOf(config);
-
-        logger.info("GliderVelocity config: {}", configString);
-
-        ServerInfo info = new ServerInfo("Auth", new InetSocketAddress("23.88.13.8", 40010));
-        RegisteredServer server = proxy.registerServer(info);
 
     }
 

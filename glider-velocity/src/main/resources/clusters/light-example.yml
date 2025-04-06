@@ -1,0 +1,13 @@
+
+cluster-settings:
+  settings:
+    prefix: ath
+    defaultGroup: auth
+
+groups:
+  auth:
+    servers:
+      Auth:
+        settings:
+          ip: "127.0.0.1"
+          port: 25566

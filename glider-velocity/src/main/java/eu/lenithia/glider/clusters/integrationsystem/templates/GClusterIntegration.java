@@ -1,16 +1,16 @@
-package eu.lenithia.glider.cluster.integrationsystem.templates;
+package eu.lenithia.glider.clusters.integrationsystem.templates;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import eu.lenithia.glider.GliderVelocity;
-import eu.lenithia.glider.cluster.system.GCluster;
+import eu.lenithia.glider.clusters.system.GCluster;
 import lombok.Getter;
 
 @Getter
-public abstract class ClusterIntegration {
+public abstract class GClusterIntegration {
 
     private final GCluster cluster;
 
-    public ClusterIntegration(GCluster cluster) {
+    public GClusterIntegration(GCluster cluster) {
         this.cluster = cluster;
     }
 

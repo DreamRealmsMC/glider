@@ -1,7 +1,7 @@
-package eu.lenithia.glider.cluster.events;
+package eu.lenithia.glider.clusters.events;
 
 
-import eu.lenithia.glider.cluster.system.GServer;
+import eu.lenithia.glider.clusters.system.GServer;
 import lombok.Getter;
 
 @Getter

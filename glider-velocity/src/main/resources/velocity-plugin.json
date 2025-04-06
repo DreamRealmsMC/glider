@@ -4,11 +4,8 @@
   "version": "${project.version}",
   "main": "eu.lenithia.glider.GliderVelocity",
   "authors": ["Len_137"],
-  "dependencies": [
-    {
-      "id": "librelogin",
-      "optional": true
-    }
+  "loadbefore": [
+    "librelogin"
   ]
 }
 

@@ -1,26 +1,21 @@
 
 cluster-settings:
-  defaultGroup: auth
-  fallback:
-    fallbackIn: false # [true / false]
-    # fallbackOut: [cluster name]
-  last-location:
-    enabled: false
-    expireHours: 1
+  settings:
+    defaultGroup: auth
+  integrations:
+    fallback:
+      fallbackIn: false # [true / false]
+      # fallbackOut: [cluster name]
+    last-location:
+      enabled: false
+      expireHours: 1
 
 
-servers:
-  Auth:
-    registered: true
-    maxPlayers: 100
-    pterodactylHost: D1
-    pterodactylID: auth0001
+
 
 groups:
   auth:
-    servers:
-      - Auth
-    settings:
+    integrations:
       fallback:
         fallbackIn: false
       load-balancer:
@@ -28,3 +23,13 @@ groups:
         optimalPlayers: 75
         minimumPlayers: 10
         loadOffset: 15
+    servers:
+      Auth:
+        settings:
+          ip: "127.0.0.1"
+          port: 25566
+        integrations:
+          pterodactyl:
+            serverID: auth0001
+            host: D1
+        maxPlayers: 100
