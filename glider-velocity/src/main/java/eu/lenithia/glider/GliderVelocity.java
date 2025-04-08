@@ -12,11 +12,11 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import eu.lenithia.glider.clusters.ClusterSystem;
 import eu.lenithia.glider.clusters.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.commands.GliderCommand;
-import eu.lenithia.glider.commands.subcommands.PingSubcommand;
 import eu.lenithia.glider.sender.Sender;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
+import lombok.Setter;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -43,13 +43,19 @@ public class GliderVelocity {
 
     private final GliderVelocity glider;
 
+    @Setter
     @Getter
     private YamlDocument config;
+    @Setter
+    @Getter
+    private YamlDocument messages;
 
     @Getter
     private ClusterSystem clusterSystem;
     @Getter
     private Sender sender;
+    @Getter
+    private GliderCommand gliderCommand;
 
 
     @Inject
@@ -70,6 +76,7 @@ public class GliderVelocity {
 
         // Load the config
         config = ConfigLoader.getVersionedConfig(dataDirectory, "config", getClass().getResourceAsStream("/config.yml"));
+        messages = ConfigLoader.getVersionedConfig(dataDirectory, "messages", getClass().getResourceAsStream("/messages.yml"));
         logger.info("config files loaded");
 
         // Bstats
@@ -85,12 +92,7 @@ public class GliderVelocity {
         sender = new Sender(glider);
 
         // Load commands
-        GliderCommand gliderCommand = new GliderCommand(glider);
-
-        PingSubcommand pingCommand = new PingSubcommand();
-        gliderCommand.registerAsDual(pingCommand, "ping", "latency");
-
-        //gliderCommand.registerSubcommandProvider(new PingSubcommand());
+        gliderCommand = new GliderCommand(glider);
 
     }
 

@@ -20,6 +20,8 @@ import org.incendo.cloud.velocity.VelocityCommandManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
+
 @Getter
 public class GliderCommand {
 
@@ -47,9 +49,7 @@ public class GliderCommand {
         MinecraftExceptionHandler.<CommandSource>createNative()
                 .defaultHandlers()
                 .decorator(component -> Component.text()
-                        .append(Component.text('['))
-                        .append(Component.text("glider", TextColor.fromHexString("#ea93ed")))
-                        .append(Component.text("] "))
+                        .append(miniMessage().deserialize(getGlider().getMessages().getString("prefix", "<#ea93ed>glider</#ea93ed> <gray>» ")))
                         .append(component)
                         .build())
                 .registerTo(commandManager);
@@ -80,12 +80,12 @@ public class GliderCommand {
                         //message.append("<reset><newline>");
 
                         context.sender().sendMessage(
-                                MiniMessage.miniMessage().deserialize(message.toString())
+                                miniMessage().deserialize(message.toString())
                         );
                     })
         );
 
-        glider.getLogger().info("Glider command load with aliases {} ", String.join(", ", aliases));
+        glider.getLogger().info("Glider command loaded with aliases {} ", String.join(", ", aliases));
 
     }
 

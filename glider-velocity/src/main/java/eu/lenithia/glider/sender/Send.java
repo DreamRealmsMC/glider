@@ -4,7 +4,6 @@ import com.velocitypowered.api.proxy.Player;
 import eu.lenithia.glider.clusters.system.GCluster;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Send {

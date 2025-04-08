@@ -5,7 +5,11 @@ import eu.lenithia.glider.GliderVelocity;
 import eu.lenithia.glider.clusters.system.GCluster;
 import eu.lenithia.glider.clusters.system.GGroup;
 import eu.lenithia.glider.clusters.system.GServer;
-import eu.lenithia.glider.sender.events.SenderSkipAbleEvent;
+import eu.lenithia.glider.sender.events.SkipAbleSenderEvent;
+import eu.lenithia.glider.sender.objects.SenderResponse;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Sender {
 
@@ -15,34 +19,31 @@ public class Sender {
     public Sender(GliderVelocity glider) {
         this.glider = glider;
 
-        send(glider.getClusterSystem().getClusters().get("kokot"), new SenderSkipAbleEvent[]{SenderSkipAbleEvent.FIND_ALL_AVAILABLE_SERVERS, SenderSkipAbleEvent.FIND_PLAYERS}, new Player[]{});
+        send(glider.getClusterSystem().getClusters().get("kokot"), Arrays.asList(SkipAbleSenderEvent.FIND_AVAILABLE_SERVERS, SkipAbleSenderEvent.FIND_PLAYERS), null);
     }
 
-    private void send(GCluster cluster, SenderSkipAbleEvent[] skipEvents, Player[] players) {
+    public void send(GCluster cluster, Player player) {
+
     }
 
-    public boolean send(GCluster cluster, SenderSkipAbleEvent[] skipEvents , Player player) {
-        return false;
+    public void send(GCluster cluster, List<SkipAbleSenderEvent> skipEvents , Player player) {
+
     }
 
-    public boolean send(GCluster cluster, Player[] players) {
-        return false;
+    public void send(GGroup group, Player player) {
+
     }
 
-    public boolean send(GCluster cluster, GGroup group, Player player) {
-        return false;
+    public void send(GGroup group, List<SkipAbleSenderEvent> skipEvents , Player player) {
+
     }
 
-    public boolean send(GCluster cluster, GGroup group, Player[] players) {
-        return false;
+    public void send(GServer server, Player player) {
+
     }
 
-    public boolean send(GCluster cluster, GGroup group, GServer server, Player player) {
-        return false;
-    }
+    public void send(GServer server, List<SkipAbleSenderEvent> skipEvents , Player player) {
 
-    public boolean send(GCluster cluster, GGroup group, GServer server, Player[] players) {
-        return false;
     }
 
 }

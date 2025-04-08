@@ -1,4 +1,4 @@
 package eu.lenithia.glider.sender.events;
 
-public class SenderOnNoGroupSpecified {
+public class SenderFindGroupEvent {
 }

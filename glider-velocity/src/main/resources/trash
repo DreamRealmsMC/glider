@@ -27,8 +27,53 @@ sender-system:
     load-balancer (pokud nebude, tak vezme z listu best-server-list)
 
 
+? only executes when not set or step fails
+0 executes if not skipped
+
+0   @Event find players             (Players -rw)
+?   @Event find target group        (Players -r, Cluster -r)
+0   @Event restricted servers       (Players -rw, Group -r)
+0?  @Event available servers        (UnrestrictedServers -r, Players number -r)
+0?  @Event find best server list    (AvailableServers -r, Players -r)
+    @Event Pre transfer             (SenderResponse -r)
+
+Neni doreseno:
+fallback potrebuje reagovat na PreTransfer, ale musi vedet, ze jde o jeho send objekt -> nejakej system na trackovani sendu
 
 
+
+/*
+PingSubcommand pingCommand = new PingSubcommand();
+gliderCommand.registerAsDual(pingCommand, "ping", "latency");
+gliderCommand.registerSubcommandProvider(new PingSubcommand());
+*/
+
+
+
+public class UniqueIDGenerator {
+    private final Map<UUID, WeakReference<UUID>> generatedIds = new WeakHashMap<>();
+
+    public synchronized UUID generateUniqueID() {
+        UUID newId;
+        do {
+            newId = UUID.randomUUID();
+        } while (generatedIds.containsKey(newId));
+        generatedIds.put(newId, new WeakReference<>(newId));
+        return newId;
+    }
+
+    public void exampleMethod() {
+        UUID uuid = generateUniqueID();
+        try {
+            // Do something with the UUID
+            System.out.println("Generated UUID: " + uuid);
+        } finally {
+            // Ensure the UUID goes out of scope
+            uuid = null;
+        }
+        // At this point, the UUID is no longer referenced and can be reclaimed by the garbage collector
+    }
+}
 
 
 database:
