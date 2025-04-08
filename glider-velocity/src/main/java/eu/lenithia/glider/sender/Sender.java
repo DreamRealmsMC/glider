@@ -44,9 +44,13 @@ public class Sender {
         this.glider = cluster.getGlider();
         this.cluster = cluster;
         this.players.add(player);
-        this.skipEvents.addAll(skipEvents);
         this.sender = sender;
         this.tryCount = tryCount;
+
+        if (skipEvents != null) {
+            this.skipEvents.addAll(skipEvents);
+        }
+
         init();
     }
 
@@ -54,10 +58,14 @@ public class Sender {
         this.group = group;
         this.cluster = group.getCluster();
         this.players.add(player);
-        this.skipEvents.addAll(skipEvents);
         this.sender = sender;
         this.tryCount = tryCount;
         this.glider = cluster.getGlider();
+
+        if (skipEvents != null) {
+            this.skipEvents.addAll(skipEvents);
+        }
+
         init();
     }
 
@@ -66,10 +74,14 @@ public class Sender {
         this.group = server.getGroup();
         this.cluster = server.getGroup().getCluster();
         this.players.add(player);
-        this.skipEvents.addAll(skipEvents);
         this.sender = sender;
         this.tryCount = tryCount;
         this.glider = cluster.getGlider();
+
+        if (skipEvents != null) {
+            this.skipEvents.addAll(skipEvents);
+        }
+
         init();
     }
 

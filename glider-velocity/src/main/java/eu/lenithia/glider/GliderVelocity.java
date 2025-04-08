@@ -9,10 +9,12 @@ import com.velocitypowered.api.plugin.PluginDescription;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import eu.lenithia.glider.api.GliderAPI;
+import eu.lenithia.glider.api.GliderAPIImpl;
+import eu.lenithia.glider.api.GliderProvider;
 import eu.lenithia.glider.clusters.ClusterSystem;
 import eu.lenithia.glider.clusters.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.commands.GliderCommand;
-import eu.lenithia.glider.api.SenderAPI;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
@@ -53,10 +55,10 @@ public class GliderVelocity {
     @Getter
     private ClusterSystem clusterSystem;
     @Getter
-    private SenderAPI sender;
-    @Getter
     private GliderCommand gliderCommand;
 
+    @Getter
+    private GliderAPI gliderAPI;
 
     @Inject
     public GliderVelocity(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory, PluginDescription description , Metrics.Factory metrics) {
@@ -88,13 +90,13 @@ public class GliderVelocity {
         proxy.getEventManager().register(glider, new DefaultIntegrationsLoader(glider));
         this.clusterSystem = new ClusterSystem(glider);
 
-        // Load sender
-        //sender = new SenderAPI(glider);
+        // API register
+        GliderAPIImpl apiImpl = new GliderAPIImpl(this);
+        GliderProvider.setAPI(apiImpl);
+        this.gliderAPI = apiImpl;
 
         // Load commands
         gliderCommand = new GliderCommand(glider);
-
-        // API register
 
     }
 
