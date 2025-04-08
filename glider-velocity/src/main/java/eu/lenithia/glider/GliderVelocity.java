@@ -12,7 +12,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import eu.lenithia.glider.clusters.ClusterSystem;
 import eu.lenithia.glider.clusters.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.commands.GliderCommand;
-import eu.lenithia.glider.sender.Sender;
+import eu.lenithia.glider.api.SenderAPI;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
@@ -53,7 +53,7 @@ public class GliderVelocity {
     @Getter
     private ClusterSystem clusterSystem;
     @Getter
-    private Sender sender;
+    private SenderAPI sender;
     @Getter
     private GliderCommand gliderCommand;
 
@@ -89,10 +89,12 @@ public class GliderVelocity {
         this.clusterSystem = new ClusterSystem(glider);
 
         // Load sender
-        sender = new Sender(glider);
+        //sender = new SenderAPI(glider);
 
         // Load commands
         gliderCommand = new GliderCommand(glider);
+
+        // API register
 
     }
 
