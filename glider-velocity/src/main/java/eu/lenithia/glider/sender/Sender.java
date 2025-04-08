@@ -5,6 +5,7 @@ import eu.lenithia.glider.GliderVelocity;
 import eu.lenithia.glider.clusters.system.GCluster;
 import eu.lenithia.glider.clusters.system.GGroup;
 import eu.lenithia.glider.clusters.system.GServer;
+import eu.lenithia.glider.sender.events.SenderSkipAbleEvent;
 
 public class Sender {
 
@@ -13,9 +14,14 @@ public class Sender {
 
     public Sender(GliderVelocity glider) {
         this.glider = glider;
+
+        send(glider.getClusterSystem().getClusters().get("kokot"), new SenderSkipAbleEvent[]{SenderSkipAbleEvent.FIND_ALL_AVAILABLE_SERVERS, SenderSkipAbleEvent.FIND_PLAYERS}, new Player[]{});
     }
 
-    public boolean send(GCluster cluster, Player player) {
+    private void send(GCluster cluster, SenderSkipAbleEvent[] skipEvents, Player[] players) {
+    }
+
+    public boolean send(GCluster cluster, SenderSkipAbleEvent[] skipEvents , Player player) {
         return false;
     }
 
