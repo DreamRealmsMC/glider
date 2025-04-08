@@ -23,6 +23,7 @@ public class GCluster {
 
     private final ConcurrentHashMap<String, GClusterIntegration> clusterInteractions = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, GGroup> clusterGroups = new ConcurrentHashMap<>();
+    private GGroup defaultGroup;
 
     public GCluster(GliderVelocity glider, String name, YamlDocument clusterConfig, CompletableFuture<Void> loadFuture) {
         this.glider = glider;
@@ -67,6 +68,13 @@ public class GCluster {
                 glider.getLogger().warn("Group {} configuration is invalid in cluster {}", groupName, clusterName);
             }
         }
+
+        defaultGroup = clusterGroups.get(getClusterConfig().getString("cluster-settings.settings.defaultGroup", null));
+
+        if (defaultGroup == null) {
+            glider.getLogger().error("Default group not found in cluster {}. Please check the configuration.", clusterName);
+            defaultGroup = clusterGroups.values().stream().findAny().orElse(null);
+        }
     }
 
     public void reload() {
@@ -80,6 +88,13 @@ public class GCluster {
                 group.reload();
             }
         }
+
+        defaultGroup = clusterGroups.get(getClusterConfig().getString("cluster-settings.settings.defaultGroup", null));
+        if (defaultGroup == null) {
+            glider.getLogger().error("Default group not found in cluster {} after reload. Assigning a random group.", clusterName);
+            defaultGroup = clusterGroups.values().stream().findAny().orElse(null);
+        }
+
     }
 
     public void unload() {

@@ -75,19 +75,25 @@ public class Sender {
 
     private void init() {
         if(!skipEvents.contains(SkipAbleSenderEvent.FIND_PLAYERS)) {
-            glider.getProxy().getEventManager().fire(new SenderFindPlayersEvent()).thenRun(this::findGroup);
+            glider.getProxy().getEventManager().fire(new SenderFindPlayersEvent(cluster, players, sender, senderResponse)).thenRun(this::findGroup);
         }
     }
 
     private void findGroup() {
-        //group = cluster.get
         if (group == null) {
-            glider.getProxy().getEventManager().fire(new SenderFindGroupEvent()).thenRun(this::findRestrictedServers);
+            group = getCluster().getDefaultGroup();
+            glider.getProxy().getEventManager().fire(new SenderFindGroupEvent(cluster, players, sender, group)).thenRun(this::findRestrictedServers);
         }
     }
 
     private void findRestrictedServers() {
-        targetServers = new ArrayList<>(group.getGroupServers().values());
+        if (server == null) {
+            targetServers = new ArrayList<>(group.getGroupServers().values());
+        } else {
+            targetServers = new ArrayList<>();
+            targetServers.add(server);
+        }
+
 
         if (targetServers.isEmpty()) {
             senderResponse = SenderResponse.EPIC_FAIL;
@@ -95,10 +101,11 @@ public class Sender {
             return;
         }
 
+
+        authorizedServers = targetServers;
+
         if(!skipEvents.contains(SkipAbleSenderEvent.FIND_RESTRICTED_SERVERS)) {
-            glider.getProxy().getEventManager().fire(new SenderFindRestrictedServersEvent()).thenRun(this::findAvailableServers);
-        } else {
-            authorizedServers = targetServers;
+            glider.getProxy().getEventManager().fire(new SenderFindRestrictedServersEvent(glider, players, sender, senderResponse, authorizedServers)).thenRun(this::findAvailableServers);
         }
     }
 
@@ -113,10 +120,10 @@ public class Sender {
             return;
         }
 
+        availableServers = authorizedServers;
+
         if (!skipEvents.contains(SkipAbleSenderEvent.FIND_AVAILABLE_SERVERS)) {
-            glider.getProxy().getEventManager().fire(new SenderFindAvailableServersEvent()).thenRun(this::findBestServer);
-        } else {
-            availableServers = authorizedServers;
+            glider.getProxy().getEventManager().fire(new SenderFindAvailableServersEvent(glider, players, sender, senderResponse, availableServers)).thenRun(this::findBestServer);
         }
     }
 
@@ -125,19 +132,27 @@ public class Sender {
             return;
         }
 
-        if (targetServers.isEmpty()) {
+        if (availableServers.isEmpty()) {
             senderResponse = SenderResponse.UNAVAILABLE;
             proceed();
             return;
         }
 
+        if (server != null) {
+            bestServers.put(server, 0);
+            proceed();
+            return;
+        }
+
+        bestServers = new ConcurrentHashMap<>();
+        for (GServer server : availableServers) {
+            bestServers.put(server, 0);
+        }
+
         if (!skipEvents.contains(SkipAbleSenderEvent.FIND_BEST_SERVER)) {
-            glider.getProxy().getEventManager().fire(new SenderFindBestServerEvent()).thenRun(this::proceed);
+            glider.getProxy().getEventManager().fire(new SenderFindBestServerEvent(this)).thenRun(this::proceed);
         } else {
-            bestServers = new ConcurrentHashMap<>();
-            for (GServer server : availableServers) {
-                bestServers.put(server, 0);
-            }
+            proceed();
         }
     }
 

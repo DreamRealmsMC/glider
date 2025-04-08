@@ -84,3 +84,60 @@ database:
   databaseName: "database"
   maxPoolSize: 1500
 
+package eu.lenithia.glider.sender.listeners;
+
+import com.google.inject.Inject;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.proxy.Player;
+import eu.lenithia.glider.GliderVelocity;
+import eu.lenithia.glider.clusters.system.GServer;
+import eu.lenithia.glider.sender.events.SenderResponseEvent;
+import eu.lenithia.glider.sender.objects.SenderResponse;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+
+public class CustomSenderResponseListener {
+
+    private final GliderVelocity glider;
+
+    @Inject
+    public CustomSenderResponseListener(GliderVelocity glider) {
+        this.glider = glider;
+    }
+
+    @Subscribe
+    public void onSenderResponse(SenderResponseEvent event) {
+        // Only handle SUCCESS and EPIC_FAIL responses
+        if (event.getSender().getSenderResponse() == SenderResponse.SUCCESS) {
+            handleSuccess(event);
+            event.setHandled(true);
+        } else if (event.getSender().getSenderResponse() == SenderResponse.EPIC_FAIL) {
+            handleEpicFail(event);
+            event.setHandled(true);
+        }
+        // Other responses will use default handling
+    }
+
+    private void handleSuccess(SenderResponseEvent event) {
+        GServer bestServer = event.getSender().getBestServer();
+        if (bestServer != null) {
+            for (Player player : event.getSender().getPlayers()) {
+                player.sendMessage(Component.text("✓ Connected to ", NamedTextColor.GREEN)
+                        .append(Component.text(bestServer.getRegisteredServer().getServerInfo().getName(), NamedTextColor.GOLD)));
+
+                player.createConnectionRequest(bestServer.getRegisteredServer()).connect();
+
+                // Log the transfer
+                glider.getLogger().info("Player " + player.getUsername() + " transferred to " +
+                        bestServer.getRegisteredServer().getServerInfo().getName());
+            }
+        }
+    }
+
+    private void handleEpicFail(SenderResponseEvent event) {
+        for (Player player : event.getSender().getPlayers()) {
+            player.sendMessage(Component.text("❌ Transfer failed!", NamedTextColor.RED));
+            glider.getLogger().severe("Epic fail occurred when transferring player: " + player.getUsername());
+        }
+    }
+}
