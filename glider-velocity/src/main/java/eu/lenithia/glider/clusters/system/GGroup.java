@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class GGroup {
@@ -20,8 +21,8 @@ public class GGroup {
     private Section groupConfig;
     private final String groupName;
 
-    private final HashMap<String, GGroupIntegration> groupIntegrations = new HashMap<>();
-    private final HashMap<String, GServer> groupServers = new HashMap<>();
+    private final ConcurrentHashMap<String, GGroupIntegration> groupIntegrations = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, GServer> groupServers = new ConcurrentHashMap<>();
 
     public GGroup(GCluster cluster, String name, Section section, CompletableFuture<Void> loadFuture) {
         this.cluster = cluster;

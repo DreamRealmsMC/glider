@@ -13,29 +13,20 @@ import java.util.concurrent.*;
 
 public class GServerDefaultSettings extends GServerIntegration {
 
-    private RegisteredServer registeredServer;;
-
     public GServerDefaultSettings(GServer gServer) {
         super(gServer);
-        setRegisteredServer();
     }
 
-    private void setRegisteredServer() {
-        String ip = getServerConfig().getString("settings.ip");
-        int port = getServerConfig().getInt("settings.port");
 
-        ServerInfo info = new ServerInfo(getGServer().getGroup().getCluster().getClusterPrefix() + getGServer().getServerName(), new InetSocketAddress(ip, port));
-        registeredServer = getGlider().getProxy().getServer(info.getName()).orElseGet(() -> getGlider().getProxy().registerServer(info));
-    }
 
     @Override
     public void onLoad() {
-        registeredServer.getServerInfo();
+
     }
 
     @Override
     public void onReload() {
-        // Implement reload logic if needed
+
     }
 
     @Override

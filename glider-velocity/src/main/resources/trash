@@ -1,0 +1,27 @@
+sender-system:
+  find-target-group: #Featura definuje predem
+    sender
+    fallback
+    last-location
+
+  find-players-for-server: #@event
+    sender
+    party
+
+  send-method: #abstract class
+    hard force
+    light force
+    queue
+
+  get-available-servers: #@event
+    primitive-checker: x # je dostatek slotů a je server online
+    maintenance: x
+
+    fail:
+
+
+  find-best-server-list: #@event  # point system
+    friends
+
+  find-server-to-join: Abstract class
+    load-balancer (pokud nebude, tak vezme z listu best-server-list)

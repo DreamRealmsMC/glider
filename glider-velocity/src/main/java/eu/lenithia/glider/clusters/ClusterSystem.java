@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClusterSystem {
 
@@ -20,7 +21,7 @@ public class ClusterSystem {
     private final File clusterFolder;
 
     @Getter
-    private HashMap<String, GCluster> clusters = new HashMap<>();
+    private ConcurrentHashMap<String, GCluster> clusters = new ConcurrentHashMap<>();
 
     public ClusterSystem(GliderVelocity glider) {
         this.glider = glider;

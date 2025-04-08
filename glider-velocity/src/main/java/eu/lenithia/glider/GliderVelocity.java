@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
+import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.PluginDescription;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -12,6 +13,7 @@ import eu.lenithia.glider.clusters.ClusterSystem;
 import eu.lenithia.glider.clusters.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.commands.GliderCommand;
 import eu.lenithia.glider.commands.subcommands.PingSubcommand;
+import eu.lenithia.glider.sender.Sender;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
@@ -43,6 +45,8 @@ public class GliderVelocity {
 
     @Getter
     private ClusterSystem clusterSystem;
+    @Getter
+    private Sender sender;
 
 
     @Inject
@@ -61,7 +65,7 @@ public class GliderVelocity {
         GliderConsoleText.printConsoleText(proxy, version);
 
         // Load the config
-        YamlDocument config = ConfigLoader.getVersionedConfig(dataDirectory, "config", getClass().getResourceAsStream("/config.yml"));
+        config = ConfigLoader.getVersionedConfig(dataDirectory, "config", getClass().getResourceAsStream("/config.yml"));
         logger.info("config files loaded");
 
         // Load clusters
@@ -69,8 +73,7 @@ public class GliderVelocity {
         this.clusterSystem = new ClusterSystem(glider);
 
         // Load sender
-
-
+        sender = new Sender(glider);
 
         // Load commands
         GliderCommand gliderCommand = new GliderCommand(glider);
@@ -82,4 +85,8 @@ public class GliderVelocity {
 
     }
 
+    @Subscribe
+    public void onProxyShutdown(ProxyShutdownEvent event) {
+        logger.info("Na shledanou!");
+    }
 }

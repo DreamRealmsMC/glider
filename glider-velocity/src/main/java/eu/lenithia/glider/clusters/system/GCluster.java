@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class GCluster {
@@ -20,8 +21,8 @@ public class GCluster {
     private final String clusterName;
     private final String clusterPrefix;
 
-    private final HashMap<String, GClusterIntegration> clusterInteractions = new HashMap<>();
-    private final HashMap<String, GGroup> clusterGroups = new HashMap<>();
+    private final ConcurrentHashMap<String, GClusterIntegration> clusterInteractions = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, GGroup> clusterGroups = new ConcurrentHashMap<>();
 
     public GCluster(GliderVelocity glider, String name, YamlDocument clusterConfig, CompletableFuture<Void> loadFuture) {
         this.glider = glider;

@@ -9,6 +9,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.execution.ExecutionCoordinator;
@@ -47,24 +48,45 @@ public class GliderCommand {
                 .defaultHandlers()
                 .decorator(component -> Component.text()
                         .append(Component.text('['))
-                        .append(Component.text("glider", TextColor.color(234, 147, 237)))
+                        .append(Component.text("glider", TextColor.fromHexString("#ea93ed")))
                         .append(Component.text("] "))
                         .append(component)
                         .build())
                 .registerTo(commandManager);
 
 
-        mainCommandBuilder = commandManager.commandBuilder("g", "glider", "topg", "gay");
+        List<String> aliasList = glider.getConfig().getStringList("command-aliases");
+        if (aliasList == null) {
+            aliasList = new ArrayList<>();
+        }
+        String[] aliases = aliasList.toArray(new String[0]);
+
+        mainCommandBuilder = commandManager.commandBuilder("glider", aliases);
 
         registerDefaultCommands();
 
         commandManager.command(
-                mainCommandBuilder.handler(context -> {
-                    context.sender().sendMessage(
-                            Component.text("Use /g help to see available commands", NamedTextColor.GOLD)
-                    );
-                })
+                mainCommandBuilder
+                    .permission("glider.command.main")
+                    .handler(context -> {
+                        StringBuilder message = new StringBuilder();
+                        message.append("<strikethrough><white>                                                                                <reset><newline>");
+                        message.append("<#ea93ed><bold>                           glider </bold><reset><newline>");
+                        message.append("<strikethrough><white>                                                                                <reset><newline>");
+                        message.append("<reset><newline>");
+                        message.append("<white> running <#ea93ed>v").append(glider.getPluginDescription().getVersion().orElse("unknown")).append("<white> by <#ea93ed>Len_137 <reset><newline>");
+                        message.append("<reset><newline>");
+                        message.append(" <bold><hover:show_text:'<yellow>Click for help</yellow>'><click:run_command:'/glider help'><#ea93ed>help</#ea93ed></click></hover> <hover:show_text:'<yellow>Click for status</yellow>'><click:run_command:'/glider status'><#ea93ed>status</#ea93ed></click></hover>    <reset><newline>");
+                        //message.append("<reset><newline>");
+
+                        context.sender().sendMessage(
+                                MiniMessage.miniMessage().deserialize(message.toString())
+                        );
+                    })
         );
+
+        glider.getLogger().info("Glider command load with aliases {} ", String.join(", ", aliases));
+
     }
 
     private void registerDefaultCommands() {
