@@ -17,6 +17,7 @@ import eu.lenithia.glider.sender.Sender;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;
+import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 
@@ -34,6 +35,8 @@ public class GliderVelocity {
     @Getter
     private PluginDescription pluginDescription;
 
+    private final Metrics.Factory metricsFactory;
+
     @Getter
     @Inject
     private Injector injector;
@@ -50,12 +53,13 @@ public class GliderVelocity {
 
 
     @Inject
-    public GliderVelocity(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory, PluginDescription description ) {
+    public GliderVelocity(ProxyServer proxy, Logger logger, @DataDirectory Path dataDirectory, PluginDescription description , Metrics.Factory metrics) {
         this.proxy = proxy;
         this.logger = logger;
         this.dataDirectory = dataDirectory;
         this.glider = this;
         this.pluginDescription = description;
+        this.metricsFactory = metrics;
     }
 
     @Subscribe
@@ -67,6 +71,11 @@ public class GliderVelocity {
         // Load the config
         config = ConfigLoader.getVersionedConfig(dataDirectory, "config", getClass().getResourceAsStream("/config.yml"));
         logger.info("config files loaded");
+
+        // Bstats
+        if (getConfig().getBoolean("bstats", true)) {
+            Metrics metrics = metricsFactory.make(this, 25403);
+        }
 
         // Load clusters
         proxy.getEventManager().register(glider, new DefaultIntegrationsLoader(glider));
