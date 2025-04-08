@@ -4,7 +4,10 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
 import eu.lenithia.glider.GliderVelocity;
+import eu.lenithia.glider.clusters.system.GGroup;
+import eu.lenithia.glider.sender.Sender;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -144,6 +147,8 @@ public class GliderCommand {
                                         Component.text("Glider Help: List of available commands", NamedTextColor.GOLD)
                                 );
                                 // Could list all registered subcommands here
+                                Player player = manager.glider.getProxy().getPlayer("ItzStanleex").orElse(null);
+                                new Sender(manager.glider.getClusterSystem().getClusters().get("event"), new ArrayList<>() ,player, "kokot", 0 );
                             })
             );
         }
