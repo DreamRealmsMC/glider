@@ -11,6 +11,8 @@ import java.util.List;
 public interface SenderAPI {
 
 
+    void send(TargetType targetType ,String name, Player player);
+
     /**
      * Sends a player to a cluster.
      *
@@ -94,5 +96,12 @@ public interface SenderAPI {
      * @param tryCount   The number of attempts to send the player (Mainly intended for queue implementations).
      */
     void send(GServer server, Player player, List<SkipAbleSenderEvent> skipEvents, String sender, int tryCount);
+
+
+    public enum TargetType {
+        CLUSTER,
+        GROUP,
+        SERVER
+    }
 
 }
