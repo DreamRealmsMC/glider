@@ -74,9 +74,28 @@ public class ClusterSystem {
                 });
     }
 
-    private void addCluster(String name, YamlDocument clusterConfig, CompletableFuture<Void> future) {
+    public void addCluster(String name, YamlDocument clusterConfig, CompletableFuture<Void> future) {
         GCluster cluster = new GCluster(glider, name, clusterConfig, future);
         clusters.put(name, cluster);
+    }
+
+    public boolean removeCluster(String name) {
+        GCluster cluster = clusters.remove(name);
+        if (cluster != null) {
+            cluster.unload();
+            glider.getLogger().info("Cluster {} removed", name);
+            return true;
+        } else {
+            glider.getLogger().warn("Cluster {} not found", name);
+            return false;
+        }
+    }
+
+    public void removeCluster(GCluster cluster) {
+        String name = cluster.getClusterName();
+        clusters.remove(name);
+        cluster.unload();
+        glider.getLogger().info("Cluster {} removed", name);
     }
 
     public void printClusters() {

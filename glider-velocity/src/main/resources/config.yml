@@ -13,8 +13,8 @@ default-cluster:
 
 limbo-mechanic:
   enabled: true
-  cluster: limbo
-  autosend: lobby
+  limbo-cluster: limbo
+  target-cluster: lobby
 
 
 
