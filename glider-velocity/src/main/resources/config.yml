@@ -1,7 +1,13 @@
 command-aliases:
-  - g
-  - topg
-  - gay
+  glider:
+    - g
+    - topg
+    - gay
+  gsend:
+    - gs
+    - send
+  gstatus:
+    - status
 
 # TODO: IMPLEMENT DEFAULT CLUSTER
 

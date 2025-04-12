@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>glider-paper</module>
         <module>glider-velocity</module>
+        <module>glider-paper</module>
     </modules>
 
     <properties>

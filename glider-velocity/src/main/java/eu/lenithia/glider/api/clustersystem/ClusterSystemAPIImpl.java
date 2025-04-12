@@ -55,12 +55,12 @@ public class ClusterSystemAPIImpl implements ClusterSystemAPI {
     }
 
     @Override
-    public boolean removeCluster(String name) {
+    public boolean unloadCluster(String name) {
         return false;
     }
 
     @Override
-    public void removeCluster(GCluster cluster) {
+    public void unloadCluster(GCluster cluster) {
 
     }
 }

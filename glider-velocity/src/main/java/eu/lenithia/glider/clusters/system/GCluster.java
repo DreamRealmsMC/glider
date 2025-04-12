@@ -98,6 +98,7 @@ public class GCluster {
     }
 
     public void unload() {
+        glider.getClusterSystem().removeCluster(this);
         for (GClusterIntegration clusterIntegration : clusterInteractions.values()) {
             clusterIntegration.onUnload();
         }

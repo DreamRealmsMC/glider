@@ -1,35 +1,14 @@
-
 cluster-settings:
   settings:
-    defaultGroup: auth
-  integrations:
-    fallback:
-      fallbackIn: false # [true / false]
-      # fallbackOut: [cluster name]
-    last-location:
-      enabled: false
-      expireHours: 1
-
-
-
+    prefix: EX-
+    defaultGroup: example
 
 groups:
-  auth:
-    integrations:
-      fallback:
-        fallbackIn: false
-      load-balancer:
-        enabled: false
-        optimalPlayers: 75
-        minimumPlayers: 10
-        loadOffset: 15
+  example:
+    settings:
+      prefix: AMPLE-
     servers:
-      Auth:
+      1:
         settings:
           ip: "127.0.0.1"
           port: 25566
-        integrations:
-          pterodactyl:
-            serverID: auth0001
-            host: D1
-        maxPlayers: 100

@@ -3,6 +3,8 @@ package eu.lenithia.glider.api;
 import eu.lenithia.glider.GliderVelocity;
 import eu.lenithia.glider.api.clustersystem.ClusterSystemAPI;
 import eu.lenithia.glider.api.clustersystem.ClusterSystemAPIImpl;
+import eu.lenithia.glider.api.command.CommandAPI;
+import eu.lenithia.glider.api.command.CommandAPIImpl;
 import eu.lenithia.glider.api.sender.SenderAPI;
 import eu.lenithia.glider.api.sender.SenderAPIImpl;
 
@@ -22,6 +24,11 @@ public class GliderAPIImpl implements GliderAPI {
     @Override
     public ClusterSystemAPI getClusterSystemAPI() {
         return new ClusterSystemAPIImpl(glider);
+    }
+
+    @Override
+    public CommandAPI getCommandAPI() {
+        return new CommandAPIImpl(glider);
     }
 
     @Override

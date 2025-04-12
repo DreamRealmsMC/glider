@@ -31,6 +31,13 @@ public class SenderFindAvailableServersEvent {
         this.availableServers = availableServers;
     }
 
+    public SenderFindAvailableServersEvent(GliderVelocity glider, List<Player> players, String sender, List<GServer> availableServers) {
+        this.players = players;
+        this.glider = glider;
+        this.sender = sender;
+        this.availableServers = availableServers;
+    }
+
     public int getNumberOfPlayers() {
         return players.size();
     }

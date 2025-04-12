@@ -58,6 +58,7 @@ public interface ClusterSystemAPI {
      */
     void addCluster(String name, YamlDocument clusterConfig, CompletableFuture<Void> future);
 
-    boolean removeCluster(String name);
-    void removeCluster(GCluster cluster);
+    boolean unloadCluster(String name);
+
+    void unloadCluster(GCluster cluster);
 }

@@ -15,6 +15,7 @@ import eu.lenithia.glider.api.GliderProvider;
 import eu.lenithia.glider.clusters.ClusterSystem;
 import eu.lenithia.glider.clusters.integrationsystem.DefaultIntegrationsLoader;
 import eu.lenithia.glider.commands.GliderCommand;
+import eu.lenithia.glider.commands.subcommands.SendSubcommand;
 import eu.lenithia.glider.utils.ConfigLoader;
 import eu.lenithia.glider.utils.GliderConsoleText;
 import lombok.Getter;

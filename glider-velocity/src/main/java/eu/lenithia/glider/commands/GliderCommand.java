@@ -6,13 +6,11 @@ import com.google.inject.TypeLiteral;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import eu.lenithia.glider.GliderVelocity;
-import eu.lenithia.glider.clusters.system.GGroup;
+import eu.lenithia.glider.commands.subcommands.SendSubcommand;
 import eu.lenithia.glider.sender.Sender;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.execution.ExecutionCoordinator;
@@ -58,7 +56,7 @@ public class GliderCommand {
                 .registerTo(commandManager);
 
 
-        List<String> aliasList = glider.getConfig().getStringList("command-aliases");
+        List<String> aliasList = glider.getConfig().getStringList("command-aliases.glider");
         if (aliasList == null) {
             aliasList = new ArrayList<>();
         }
@@ -94,9 +92,12 @@ public class GliderCommand {
 
     private void registerDefaultCommands() {
         // Register built-in subcommands
-        registerSubcommandProvider(new HelpSubcommand());
-        registerSubcommandProvider(new SendSubcommand());
-        registerSubcommandProvider(new StatusSubcommand());
+        List<String> aliasListGSend = glider.getConfig().getStringList("command-aliases.gsend");
+        if (aliasListGSend == null) {
+            aliasListGSend = new ArrayList<>();
+        }
+        String[] aliasesGSend = aliasListGSend.toArray(new String[0]);
+        registerAsDual(new SendSubcommand(glider), "gsend", aliasesGSend);
     }
 
     /**
@@ -131,63 +132,6 @@ public class GliderCommand {
      */
     public interface StandaloneCommandProvider {
         void registerStandalone(GliderCommand manager, Command.Builder<CommandSource> builder);
-    }
-
-    /**
-     * Help subcommand implementation
-     */
-    private static class HelpSubcommand implements GliderSubcommandProvider {
-        @Override
-        public void registerToGlider(GliderCommand manager) {
-            manager.getCommandManager().command(
-                    manager.getMainCommandBuilder()
-                            .literal("help")
-                            .handler(context -> {
-                                context.sender().sendMessage(
-                                        Component.text("Glider Help: List of available commands", NamedTextColor.GOLD)
-                                );
-                                // Could list all registered subcommands here
-                                Player player = manager.glider.getProxy().getPlayer("ItzStanleex").orElse(null);
-                                new Sender(manager.glider.getClusterSystem().getClusters().get("event"), new ArrayList<>() ,player, "kokot", 0 );
-                            })
-            );
-        }
-    }
-
-    /**
-     * Send subcommand implementation
-     */
-    private static class SendSubcommand implements GliderSubcommandProvider {
-        @Override
-        public void registerToGlider(GliderCommand manager) {
-            manager.getCommandManager().command(
-                    manager.getMainCommandBuilder()
-                            .literal("send")
-                            .handler(context -> {
-                                context.sender().sendMessage(
-                                        Component.text("Send command activated", NamedTextColor.GREEN)
-                                );
-                            })
-            );
-        }
-    }
-
-    /**
-     * Status subcommand implementation
-     */
-    private static class StatusSubcommand implements GliderSubcommandProvider {
-        @Override
-        public void registerToGlider(GliderCommand manager) {
-            manager.getCommandManager().command(
-                    manager.getMainCommandBuilder()
-                            .literal("status")
-                            .handler(context -> {
-                                context.sender().sendMessage(
-                                        Component.text("Glider Status: Running", NamedTextColor.AQUA)
-                                );
-                            })
-            );
-        }
     }
 
 

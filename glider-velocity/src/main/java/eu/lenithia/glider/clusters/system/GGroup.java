@@ -20,15 +20,17 @@ public class GGroup {
     private final GCluster cluster;
     private Section groupConfig;
     private final String groupName;
+    private final String groupPrefix;
 
     private final ConcurrentHashMap<String, GGroupIntegration> groupIntegrations = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, GServer> groupServers = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, GServer> groupServers = new ConcurrentHashMap<>();
 
     public GGroup(GCluster cluster, String name, Section section, CompletableFuture<Void> loadFuture) {
         this.cluster = cluster;
         this.groupName = name;
         this.groupConfig = section;
         this.glider = cluster.getGlider();
+        this.groupPrefix = groupConfig.getString("settings.prefix", "");
         init(loadFuture);
     }
 
@@ -58,22 +60,33 @@ public class GGroup {
             return;
         }
 
-        for (String serverName : serversSection.getRoutesAsStrings(false)) {
-            Section serverSection = serversSection.getSection(serverName);
+        for (String serverIDStr : serversSection.getRoutesAsStrings(false)) {
+            Section serverSection = serversSection.getSection(serverIDStr);
             if (serverSection != null) {
-                CompletableFuture<Void> serverFuture = new CompletableFuture<>();
-                serverFutures.add(serverFuture);
-                GServer server = new GServer(this, serverName, serverSection, serverFuture);
-                groupServers.put(serverName, server);
+                try {
+                    int serverID = Integer.parseInt(serverIDStr);
+                    CompletableFuture<Void> serverFuture = new CompletableFuture<>();
+                    serverFutures.add(serverFuture);
+                    GServer server = new GServer(this, serverID, serverSection, serverFuture);
+                    groupServers.put(serverID, server);
+                } catch (NumberFormatException e) {
+                    glider.getLogger().warn("Server ID {} is not a valid integer in group {} of cluster {}",
+                            serverIDStr, groupName, cluster.getClusterName());
+                }
             } else {
                 glider.getLogger().warn("Server {} configuration is invalid in group {} of cluster {}",
-                        serverName, groupName, cluster.getClusterName());
+                        serverIDStr, groupName, cluster.getClusterName());
             }
         }
     }
 
     public void reload() {
-
+        for (GGroupIntegration groupIntegration : groupIntegrations.values()) {
+            groupIntegration.onReload();
+        }
+        for (GServer server : groupServers.values()) {
+            server.reload();
+        }
     }
 
     public void unload() {

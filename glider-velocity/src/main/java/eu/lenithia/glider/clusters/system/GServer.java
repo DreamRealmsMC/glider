@@ -19,15 +19,15 @@ public class GServer {
     private final GliderVelocity glider;
     private final GGroup group;
     private Section serverConfig;
-    private final String serverName;
+    private final int serverID;
     private RegisteredServer registeredServer;
 
     private final ConcurrentHashMap<String, GServerIntegration> serverIntegrations = new ConcurrentHashMap<>();
 
-    public GServer(GGroup gGroup, String name, Section section, CompletableFuture<Void> loadFuture) {
+    public GServer(GGroup gGroup, int name, Section section, CompletableFuture<Void> loadFuture) {
         this.glider = gGroup.getGlider();
         this.group = gGroup;
-        this.serverName = name;
+        this.serverID = name;
         this.serverConfig = section;
         init(loadFuture);
     }
@@ -36,7 +36,7 @@ public class GServer {
         String ip = getServerConfig().getString("settings.ip");
         int port = getServerConfig().getInt("settings.port");
 
-        ServerInfo info = new ServerInfo(getGroup().getCluster().getClusterPrefix() + getServerName(), new InetSocketAddress(ip, port));
+        ServerInfo info = new ServerInfo(getGroup().getCluster().getClusterPrefix() + getGroup().getGroupPrefix() + getServerID(), new InetSocketAddress(ip, port));
         registeredServer = getGlider().getProxy().getServer(info.getName()).orElseGet(() -> getGlider().getProxy().registerServer(info));
 
         glider.getProxy().getEventManager().fire(new GServerLoadEvent(this)).thenRun(() -> {
@@ -44,7 +44,7 @@ public class GServer {
                 serverIntegration.onLoad();
             }
             glider.getLogger().info("[SERVER] ({}) {} loaded with {} integrations",
-                    getGroup().getGroupName(), serverName, serverIntegrations.size());
+                    getGroup().getGroupName(), serverID, serverIntegrations.size());
             loadFuture.complete(null);
         });
     }
@@ -56,7 +56,7 @@ public class GServer {
 
         if (!registeredServer.getServerInfo().getAddress().equals(newAddress)) {
             getGlider().getProxy().unregisterServer(registeredServer.getServerInfo());
-            ServerInfo newInfo = new ServerInfo(getGroup().getCluster().getClusterPrefix() + getServerName(), newAddress);
+            ServerInfo newInfo = new ServerInfo(getGroup().getCluster().getClusterPrefix() + getServerID(), newAddress);
             registeredServer = getGlider().getProxy().registerServer(newInfo);
         }
     }

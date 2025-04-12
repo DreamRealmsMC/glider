@@ -14,7 +14,7 @@ public class PingSubcommand implements GliderCommand.DualCommandProvider {
     public void registerToGlider(GliderCommand commandsManager) {
         commandsManager.getCommandManager().command(
                 commandsManager.getMainCommandBuilder()
-                        .literal("pingfromglider")
+                        .literal("ping")
                         .handler(this::handlePingCommand)
         );
     }
