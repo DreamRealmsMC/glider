@@ -90,13 +90,13 @@ public class GliderVelocity {
         proxy.getEventManager().register(glider, new DefaultIntegrationsLoader(glider));
         this.clusterSystem = new ClusterSystem(glider);
 
+        // Load commands
+        gliderCommand = new GliderCommand(glider);
+
         // API register
         GliderAPIImpl apiImpl = new GliderAPIImpl(this);
         GliderProvider.setAPI(apiImpl);
         this.gliderAPI = apiImpl;
-
-        // Load commands
-        gliderCommand = new GliderCommand(glider);
 
 
     }
