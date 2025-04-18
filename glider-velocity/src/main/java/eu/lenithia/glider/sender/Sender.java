@@ -95,6 +95,8 @@ public class Sender {
         if (group == null) {
             group = getCluster().getDefaultGroup();
             glider.getProxy().getEventManager().fire(new SenderFindGroupEvent(cluster, players, sender, group)).thenRun(this::findRestrictedServers);
+        } else {
+            findRestrictedServers();
         }
     }
 
@@ -177,6 +179,9 @@ public class Sender {
 
     private void proceed() {
         if (senderResponse == null) { senderResponse = SenderResponse.SUCCESS; }
+
+
+        glider.getLogger().info("Best server:" + getBestServer().getServerID());
 
         SenderProceedEvent event = new SenderProceedEvent(this);
         glider.getProxy().getEventManager().fire(event).thenAccept(proceedEvent -> {
