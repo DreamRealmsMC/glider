@@ -17,12 +17,6 @@ public class SenderAPIImpl implements SenderAPI {
         this.glider = glider;
     }
 
-
-    @Override
-    public void send(TargetType targetType, String name, Player player) {
-
-    }
-
     @Override
     public void send(GCluster cluster, Player player) {
 
