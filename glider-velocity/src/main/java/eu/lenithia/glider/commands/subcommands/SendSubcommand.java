@@ -3,8 +3,6 @@ package eu.lenithia.glider.commands.subcommands;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
 import eu.lenithia.glider.GliderVelocity;
-import eu.lenithia.glider.api.clustersystem.ClusterSystemAPI;
-import eu.lenithia.glider.api.sender.SenderAPI;
 import eu.lenithia.glider.clusters.system.GCluster;
 import eu.lenithia.glider.clusters.system.GGroup;
 import eu.lenithia.glider.clusters.system.GServer;
@@ -16,12 +14,8 @@ import eu.lenithia.glider.sender.Sender;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.context.CommandContext;
-import org.incendo.cloud.description.Description;
-import org.incendo.cloud.parser.standard.StringParser;
-import org.incendo.cloud.velocity.parser.PlayerParser;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import org.incendo.cloud.velocity.parser.PlayerParser;
 
 public class SendSubcommand implements GliderCommand.DualCommandProvider {
     private final GliderVelocity glider;
