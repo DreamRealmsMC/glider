@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import eu.lenithia.glider.api.GliderAPI;
+import eu.lenithia.glider.api.GliderAPIEvent;
 import eu.lenithia.glider.api.GliderAPIImpl;
 import eu.lenithia.glider.api.GliderProvider;
 import eu.lenithia.glider.clusters.ClusterSystem;
@@ -97,7 +98,7 @@ public class GliderVelocity {
         GliderAPIImpl apiImpl = new GliderAPIImpl(this);
         GliderProvider.setAPI(apiImpl);
         this.gliderAPI = apiImpl;
-
+        proxy.getEventManager().fire(new GliderAPIEvent(gliderAPI));
 
     }
 
