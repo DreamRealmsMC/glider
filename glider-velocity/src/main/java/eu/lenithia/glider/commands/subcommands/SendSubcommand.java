@@ -25,14 +25,10 @@ import java.util.stream.Collectors;
 
 public class SendSubcommand implements GliderCommand.DualCommandProvider {
     private final GliderVelocity glider;
-    private final SenderAPI senderAPI;
-    private final ClusterSystemAPI clusterSystemAPI;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public SendSubcommand(GliderVelocity glider) {
         this.glider = glider;
-        this.senderAPI = glider.getGliderAPI().getSenderAPI();
-        this.clusterSystemAPI = glider.getGliderAPI().getClusterSystemAPI();
     }
 
     @Override

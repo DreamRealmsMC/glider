@@ -10,7 +10,7 @@ import eu.lenithia.glider.api.sender.SenderAPIImpl;
 
 public class GliderAPIImpl implements GliderAPI {
 
-    private GliderVelocity glider;
+    private final GliderVelocity glider;
 
     public GliderAPIImpl(GliderVelocity glider) {
         this.glider = glider;
